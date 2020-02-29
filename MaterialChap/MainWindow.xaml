@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
         xmlns:local="clr-namespace:MaterialChap"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
@@ -236,190 +235,142 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Grid
+    <materialDesign:DialogHost Identifier="RootDialog" >
+        <Grid
         Background="#f8f9fc">
-        <Grid.RowDefinitions>
-            <RowDefinition
-                Height="200" />
-            <RowDefinition
+            <Grid.RowDefinitions>
+                <RowDefinition
+                Height="auto" />
+
+                <RowDefinition
                 Height="*" />
 
-        </Grid.RowDefinitions>
-        <Border
+            </Grid.RowDefinitions>
+            <Border
             Grid.Row="0"
             BorderThickness="0"
             BorderBrush="Transparent"
             x:Name="BrowserWrapper"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch">
-            <Grid
+                <Grid
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
-                <Grid.RowDefinitions>
-                    <RowDefinition
+                    <Grid.RowDefinitions>
+                        <RowDefinition
                         Height="auto" />
-                    <RowDefinition
+                        <RowDefinition
                         Height="auto" />
-                    <!--<RowDefinition
-                        Height="auto" />-->
 
 
-                </Grid.RowDefinitions>
+                    </Grid.RowDefinitions>
 
 
-                <StackPanel
+                    <StackPanel
                     Grid.Row="0">
-                    <Border
+                        <Border
                         Background="White"
                         Panel.ZIndex="1000"
                         CornerRadius="0">
-                        <StackPanel
+                            <StackPanel
                             x:Name="ContextInfo"
                             HorizontalAlignment="Stretch"
                             Background="#4dbc91">
 
 
-                            <materialDesign:Card
+                                <materialDesign:Card
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Stretch"
                                 Background="{DynamicResource MaterialDesignBackground}"
                                 Margin="15">
 
 
-                                <StackPanel
+                                    <StackPanel
                                     TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
-                                    <Expander
+                                        <Expander
                                         IsExpanded="True"
                                         HorizontalAlignment="Stretch">
-                                        <Expander.Header>
-                                            <TextBlock
+                                            <Expander.Header>
+                                                <TextBlock
                                                 x:Name="DisplayContextTitle"
                                                 Style="{StaticResource MaterialDesignHeadline5TextBlock}"
                                                 TextWrapping="Wrap" >
                                                 Some Title here
-                                            </TextBlock>
-                                        </Expander.Header>
-                                        <StackPanel
+                                                </TextBlock>
+                                            </Expander.Header>
+                                            <StackPanel
                                             Margin="24,8,24,16">
-                                            <TextBlock
+                                                <TextBlock
                                                 Margin="0,5"
                                                 Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
                                                 x:Name="DisplayContextContent"
                                                 TextWrapping="Wrap" >
                                                 Blah Blah Blah1
-                                            </TextBlock>
-                                            <TextBlock
+                                                </TextBlock>
+                                                <TextBlock
                                                 Margin="0,5"
                                                 x:Name="LocationTextBox"
                                                 TextWrapping="Wrap"
                                                 Style="{StaticResource MaterialDesignSubtitle1TextBlock}" >
                                                     Blah Blah Blah2
-                                            </TextBlock>
-                                            <TextBlock
+                                                </TextBlock>
+                                                <TextBlock
                                                 Margin="0,5"
                                                 x:Name="ActionTakenTextBox"
                                                 TextWrapping="Wrap"
                                                 Style="{StaticResource MaterialDesignSubtitle1TextBlock}" >
                                                     Blah Blah Blah3
-                                            </TextBlock>
-                                            <TextBlock
+                                                </TextBlock>
+                                                <TextBlock
                                                 Margin="0,5"
                                                 x:Name="RemarksTextBox"
                                                 TextWrapping="Wrap"
                                                 Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
                                                 >
                                                     Blah Blah Blah4
-                                            </TextBlock>
-                                            <Separator
+                                                </TextBlock>
+                                                <Button  Content="Open it" Click="Button_Click"/>
+
+                                                <Separator
                                                 Style="{StaticResource MaterialDesignDarkSeparator}"
                                                 Margin="0" />
-                                            <WrapPanel
+                                                <WrapPanel
                                                 x:Name="AttachmentsPanel"
                                                 Orientation="Horizontal"
                                                 Margin="0">
-                                                <materialDesign:Chip
+                                                    <WrapPanel.Resources>
+                                                        <Style TargetType="materialDesign:Chip">
+                                                            <Setter Property="Margin" Value="5"/>
+                                                        </Style>
+                                                    </WrapPanel.Resources>
+                                                    <materialDesign:Chip
                                                     Content="ANZ Bank"
                                                     Icon="A" />
 
-                                                <materialDesign:Chip
+                                                    <materialDesign:Chip
                                                     Content="ANZ Bank"
                                                     Icon="A" />
-                                                
-                                                <materialDesign:Chip
-                                                    Content="ANZ Bank"
-                                                    Icon="A" />
-                                                
-                                            </WrapPanel>
-                                        </StackPanel>
-                                    </Expander>
-                                </StackPanel>
-                            </materialDesign:Card>
 
-                        </StackPanel>
-                    </Border>
-                </StackPanel>
 
-                <Grid
+                                                </WrapPanel>
+                                            </StackPanel>
+                                        </Expander>
+                                    </StackPanel>
+                                </materialDesign:Card>
+                              
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <Grid
                     Grid.Row="1"
                     x:Name="ActionPanel"
                     Background="Transparent"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Center" />
-            </Grid>
-        </Border>
+                </Grid>
+            </Border>
 
-        <Grid
-            Grid.Row="1"
-            FocusVisualStyle="{x:Null}"
-            x:Name="ChatGrid"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch">
-            <Grid.RowDefinitions>
-
-                <RowDefinition
-                    x:Name="ContextInfoRowDefinition"
-                    Height="200" />
-                <RowDefinition
-                    Height="auto" />
-                <RowDefinition
-                    Height="*" />
-            </Grid.RowDefinitions>
-            <materialDesign:Card
-                Grid.Row="0"
-                Background="{DynamicResource MaterialDesignBackground}"
-                Padding="20,20,20,10">
-                
-                <cefSharp:ChromiumWebBrowser
-                x:Name="browser"
-                    Address="http://localhost:8887/tableTesxt.html"
-                    />
-                
-            </materialDesign:Card>
-            <GridSplitter
-                x:Name="ContextInfoSplitter"
-                Grid.Row="1"
-                HorizontalAlignment="Stretch"
-                Height="15"
-                VerticalAlignment="Center"
-                ShowsPreview="True"
-                ResizeDirection="Rows"
-                Background="LightGray">
-
-                <!--DragCompleted="GridSplitter_DragCompleted"-->
-
-                <GridSplitter.Template>
-                    <ControlTemplate
-                        TargetType="{x:Type GridSplitter}">
-                        <Grid
-                            Background="LightGray">
-                            <materialDesign:PackIcon
-                                HorizontalAlignment="Center"
-                                Kind="DragHorizontal" />
-                        </Grid>
-                    </ControlTemplate>
-                </GridSplitter.Template>
-
-            </GridSplitter>
             <ScrollViewer
                 Grid.Row="2"
                 x:Name="MainScrollViewer"
@@ -441,11 +392,10 @@
                     <Grid Height="50" Width="50" Background="Yellow" Margin="10"/>
                     <Grid Height="50" Width="50" Background="Yellow" Margin="10"/>
                     <Grid Height="50" Width="50" Background="Yellow" Margin="10"/>
-                    
+
                 </StackPanel>
             </ScrollViewer>
 
         </Grid>
-    </Grid>
-
+    </materialDesign:DialogHost>
 </Window>
