@@ -1,0 +1,451 @@
+﻿<Window x:Class="MaterialChap.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+        xmlns:local="clr-namespace:MaterialChap"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style
+            x:Key="ScrollBarTrackThumb"
+            TargetType="{x:Type Thumb}">
+            <Setter
+                Property="Template">
+                <Setter.Value>
+                    <ControlTemplate
+                        TargetType="{x:Type Thumb}">
+                        <Grid
+                            x:Name="Grid">
+                            <Rectangle
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Width="Auto"
+                                Height="Auto"
+                                Fill="Transparent" />
+                            <Border
+                                x:Name="CornerScrollBarRectangle"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Width="Auto"
+                                Height="Auto"
+                                Margin="0,1,0,1"
+                                Background="Gray" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger
+                                Property="Tag"
+                                Value="Horizontal">
+                                <Setter
+                                    TargetName="CornerScrollBarRectangle"
+                                    Property="Width"
+                                    Value="Auto" />
+                                <Setter
+                                    TargetName="CornerScrollBarRectangle"
+                                    Property="Height"
+                                    Value="6" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style
+            TargetType="{x:Type ScrollBar}">
+            <Setter
+                Property="Stylus.IsFlicksEnabled"
+                Value="false" />
+            <Setter
+                Property="Margin">
+                <Setter.Value>
+                    <Thickness
+                        Top="5"
+                        Left="0"
+                        Bottom="5"
+                        Right="3" />
+                </Setter.Value>
+
+            </Setter>
+            <Setter
+                Property="Foreground"
+                Value="#018D63" />
+            <Setter
+                Property="Background"
+                Value="Transparent" />
+            <Setter
+                Property="Width"
+                Value="7" />
+            <Setter
+                Property="Template">
+                <Setter.Value>
+                    <ControlTemplate
+                        TargetType="{x:Type ScrollBar}">
+                        <Grid
+                            x:Name="GridRoot"
+                            Width="7"
+                            Background="{TemplateBinding Background}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition
+                                    Height="0.00001*" />
+                            </Grid.RowDefinitions>
+                            <Track
+                                x:Name="PART_Track"
+                                Grid.Row="0"
+                                IsDirectionReversed="true"
+                                Focusable="false">
+                                <Track.Thumb>
+                                    <Thumb
+                                        x:Name="Thumb"
+                                        Background="{TemplateBinding Foreground}"
+                                        Style="{DynamicResource ScrollBarTrackThumb}" />
+                                </Track.Thumb>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton
+                                        x:Name="PageUp"
+                                        Command="ScrollBar.PageDownCommand"
+                                        Opacity="0"
+                                        Focusable="false" />
+                                </Track.IncreaseRepeatButton>
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton
+                                        x:Name="PageDown"
+                                        Command="ScrollBar.PageUpCommand"
+                                        Opacity="0"
+                                        Focusable="false" />
+                                </Track.DecreaseRepeatButton>
+                            </Track>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger
+                                SourceName="Thumb"
+                                Property="IsMouseOver"
+                                Value="true">
+                                <Setter
+                                    Value="{DynamicResource ButtonSelectBrush}"
+                                    TargetName="Thumb"
+                                    Property="Background" />
+                            </Trigger>
+                            <Trigger
+                                SourceName="Thumb"
+                                Property="IsDragging"
+                                Value="true">
+                                <Setter
+                                    Value="{DynamicResource DarkBrush}"
+                                    TargetName="Thumb"
+                                    Property="Background" />
+                            </Trigger>
+
+                            <Trigger
+                                Property="IsEnabled"
+                                Value="false">
+                                <Setter
+                                    TargetName="Thumb"
+                                    Property="Visibility"
+                                    Value="Collapsed" />
+                            </Trigger>
+                            <Trigger
+                                Property="Orientation"
+                                Value="Horizontal">
+                                <Setter
+                                    TargetName="GridRoot"
+                                    Property="LayoutTransform">
+                                    <Setter.Value>
+                                        <RotateTransform
+                                            Angle="-90" />
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter
+                                    TargetName="PART_Track"
+                                    Property="LayoutTransform">
+                                    <Setter.Value>
+                                        <RotateTransform
+                                            Angle="-90" />
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter
+                                    Property="Width"
+                                    Value="Auto" />
+                                <Setter
+                                    Property="Height"
+                                    Value="8" />
+                                <Setter
+                                    TargetName="Thumb"
+                                    Property="Tag"
+                                    Value="Horizontal" />
+                                <Setter
+                                    TargetName="PageDown"
+                                    Property="Command"
+                                    Value="ScrollBar.PageLeftCommand" />
+                                <Setter
+                                    TargetName="PageUp"
+                                    Property="Command"
+                                    Value="ScrollBar.PageRightCommand" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style
+            TargetType="Button"
+            x:Key="NormalButton">
+            <Setter
+                Property="Template">
+                <Setter.Value>
+                    <ControlTemplate
+                        TargetType="{x:Type Button}">
+                        <Border
+                            CornerRadius="8"
+                            Cursor="Hand"
+                            Background="{TemplateBinding Background}">
+                            <TextBlock
+                                Margin="7"
+                                TextTrimming="CharacterEllipsis"
+                                ToolTip="{TemplateBinding Content}"
+                                Text="{TemplateBinding Content}"
+                                Foreground="White"
+                                FontSize="15"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+
+            </Setter>
+            <Setter
+                Property="FontSize"
+                Value="26" />
+            <Setter
+                Property="Foreground">
+                <Setter.Value>
+                    <LinearGradientBrush
+                        StartPoint="0.5,0"
+                        EndPoint="0.5,1">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop
+                                Offset="0.0"
+                                Color="#90DDDD" />
+                            <GradientStop
+                                Offset="1.0"
+                                Color="#5BFFFF" />
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid
+        Background="#f8f9fc">
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="200" />
+            <RowDefinition
+                Height="*" />
+
+        </Grid.RowDefinitions>
+        <Border
+            Grid.Row="0"
+            BorderThickness="0"
+            BorderBrush="Transparent"
+            x:Name="BrowserWrapper"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+            <Grid
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="auto" />
+                    <RowDefinition
+                        Height="auto" />
+                    <!--<RowDefinition
+                        Height="auto" />-->
+
+
+                </Grid.RowDefinitions>
+
+
+                <StackPanel
+                    Grid.Row="0">
+                    <Border
+                        Background="White"
+                        Panel.ZIndex="1000"
+                        CornerRadius="0">
+                        <StackPanel
+                            x:Name="ContextInfo"
+                            HorizontalAlignment="Stretch"
+                            Background="#4dbc91">
+
+
+                            <materialDesign:Card
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Stretch"
+                                Background="{DynamicResource MaterialDesignBackground}"
+                                Margin="15">
+
+
+                                <StackPanel
+                                    TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+                                    <Expander
+                                        IsExpanded="True"
+                                        HorizontalAlignment="Stretch">
+                                        <Expander.Header>
+                                            <TextBlock
+                                                x:Name="DisplayContextTitle"
+                                                Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                                                TextWrapping="Wrap" >
+                                                Some Title here
+                                            </TextBlock>
+                                        </Expander.Header>
+                                        <StackPanel
+                                            Margin="24,8,24,16">
+                                            <TextBlock
+                                                Margin="0,5"
+                                                Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                                x:Name="DisplayContextContent"
+                                                TextWrapping="Wrap" >
+                                                Blah Blah Blah1
+                                            </TextBlock>
+                                            <TextBlock
+                                                Margin="0,5"
+                                                x:Name="LocationTextBox"
+                                                TextWrapping="Wrap"
+                                                Style="{StaticResource MaterialDesignSubtitle1TextBlock}" >
+                                                    Blah Blah Blah2
+                                            </TextBlock>
+                                            <TextBlock
+                                                Margin="0,5"
+                                                x:Name="ActionTakenTextBox"
+                                                TextWrapping="Wrap"
+                                                Style="{StaticResource MaterialDesignSubtitle1TextBlock}" >
+                                                    Blah Blah Blah3
+                                            </TextBlock>
+                                            <TextBlock
+                                                Margin="0,5"
+                                                x:Name="RemarksTextBox"
+                                                TextWrapping="Wrap"
+                                                Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                                >
+                                                    Blah Blah Blah4
+                                            </TextBlock>
+                                            <Separator
+                                                Style="{StaticResource MaterialDesignDarkSeparator}"
+                                                Margin="0" />
+                                            <WrapPanel
+                                                x:Name="AttachmentsPanel"
+                                                Orientation="Horizontal"
+                                                Margin="0">
+                                                <materialDesign:Chip
+                                                    Content="ANZ Bank"
+                                                    Icon="A" />
+
+                                                <materialDesign:Chip
+                                                    Content="ANZ Bank"
+                                                    Icon="A" />
+                                                
+                                                <materialDesign:Chip
+                                                    Content="ANZ Bank"
+                                                    Icon="A" />
+                                                
+                                            </WrapPanel>
+                                        </StackPanel>
+                                    </Expander>
+                                </StackPanel>
+                            </materialDesign:Card>
+
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <Grid
+                    Grid.Row="1"
+                    x:Name="ActionPanel"
+                    Background="Transparent"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center" />
+            </Grid>
+        </Border>
+
+        <Grid
+            Grid.Row="1"
+            FocusVisualStyle="{x:Null}"
+            x:Name="ChatGrid"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+
+                <RowDefinition
+                    x:Name="ContextInfoRowDefinition"
+                    Height="200" />
+                <RowDefinition
+                    Height="auto" />
+                <RowDefinition
+                    Height="*" />
+            </Grid.RowDefinitions>
+            <materialDesign:Card
+                Grid.Row="0"
+                Background="{DynamicResource MaterialDesignBackground}"
+                Padding="20,20,20,10">
+                
+                <cefSharp:ChromiumWebBrowser
+                x:Name="browser"
+                    Address="http://localhost:8887/tableTesxt.html"
+                    />
+                
+            </materialDesign:Card>
+            <GridSplitter
+                x:Name="ContextInfoSplitter"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                Height="15"
+                VerticalAlignment="Center"
+                ShowsPreview="True"
+                ResizeDirection="Rows"
+                Background="LightGray">
+
+                <!--DragCompleted="GridSplitter_DragCompleted"-->
+
+                <GridSplitter.Template>
+                    <ControlTemplate
+                        TargetType="{x:Type GridSplitter}">
+                        <Grid
+                            Background="LightGray">
+                            <materialDesign:PackIcon
+                                HorizontalAlignment="Center"
+                                Kind="DragHorizontal" />
+                        </Grid>
+                    </ControlTemplate>
+                </GridSplitter.Template>
+
+            </GridSplitter>
+            <ScrollViewer
+                Grid.Row="2"
+                x:Name="MainScrollViewer"
+                Background="Pink"
+                VerticalScrollBarVisibility="Visible">
+
+
+                <StackPanel
+                    x:Name="MessagesPanel"
+                    Orientation="Vertical">
+                    <StackPanel.Resources>
+                        <Style TargetType="Grid">
+                            <Setter Property="HorizontalAlignment" Value="Left" />
+                        </Style>
+                    </StackPanel.Resources>
+                    <Grid Height="50" Width="50" Background="Yellow" Margin="10"/>
+                    <Grid Height="50" Width="50" Background="Yellow" Margin="10"/>
+                    <Grid Height="50" Width="50" Background="Yellow" Margin="10"/>
+                    <Grid Height="50" Width="50" Background="Yellow" Margin="10"/>
+                    <Grid Height="50" Width="50" Background="Yellow" Margin="10"/>
+                    <Grid Height="50" Width="50" Background="Yellow" Margin="10"/>
+                    
+                </StackPanel>
+            </ScrollViewer>
+
+        </Grid>
+    </Grid>
+
+</Window>
