@@ -239,69 +239,8 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <materialDesign:DialogHost Identifier="RootDialog"  IsOpen="True">
-        <materialDesign:DialogHost.DialogContent>
-            <Grid 
-          Height="{Binding ElementName=mainWindow, Path=Height, Mode=TwoWay, Converter={StaticResource converter}, ConverterParameter=0.7}"
-          Width="{Binding ElementName=mainWindow, Path=Width, Mode=TwoWay, Converter={StaticResource converter}, ConverterParameter=0.7}"                    
-          HorizontalAlignment="Stretch"
-          VerticalAlignment="Stretch"
-          >
-
-                <materialDesign:Card
-            Margin="20"
-            Padding="20"
-                                VerticalAlignment="Stretch"
-                                HorizontalAlignment="Stretch"
-                                Background="{DynamicResource MaterialDesignBackground}"
-                              >
-
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <DockPanel Grid.Row="0">
-                            <TextBlock DockPanel.Dock="Left"
-                                                x:Name="DisplayContextTitle2"
-                                                Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                                                TextWrapping="Wrap" >
-                                                Html
-                            </TextBlock>
-                            <Button IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
-                        DockPanel.Dock="Right"
-                        HorizontalAlignment="Right"
-                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
-                                <Button.CommandParameter>
-                                    <system:Boolean>True</system:Boolean>
-                                </Button.CommandParameter>
-                                CLOSEs
-                            </Button>
-                        </DockPanel>
-                        <cefSharp:ChromiumWebBrowser
-                            Grid.Row="1"
-                      VerticalAlignment="Stretch"
-                            HorizontalAlignment="Stretch"
-                x:Name="browser"
-                    Address="http://localhost:8887/tableTesxt.html"
-                    />
-
-                    </Grid>
-                </materialDesign:Card>
-
-                <!--<StackPanel Orientation="Horizontal" Grid.Row="1"
-                    Margin="0 16 0 0">
-
-            <Button IsCancel="True" Margin="8 0 0 0" Style="{DynamicResource MaterialDesignFlatButton}"
-                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
-                <Button.CommandParameter>
-                    <system:Boolean>False</system:Boolean>
-                </Button.CommandParameter>
-                CANCEL
-            </Button>
-        </StackPanel>-->
-            </Grid>
-        </materialDesign:DialogHost.DialogContent>
+    <materialDesign:DialogHost Identifier="RootDialog" >
+      
         <Grid
         Background="#f8f9fc">
             <Grid.RowDefinitions>
