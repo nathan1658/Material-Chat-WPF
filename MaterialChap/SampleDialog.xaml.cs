@@ -11,7 +11,7 @@ namespace MaterialChap
     {
         public SampleDialog()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
     }
 }

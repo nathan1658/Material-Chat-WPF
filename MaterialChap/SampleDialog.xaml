@@ -4,58 +4,68 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:local ="clr-namespace:MaterialChap"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             x:Class="MaterialChap.SampleDialog"  
+>
 
-             x:Class="MaterialChap.SampleDialog">
-    <Grid Margin="20">
+    <UserControl.Resources>
+        <local:ValuePercentageConverter x:Key="converter"/>
+    </UserControl.Resources>
+    <Grid 
+          Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}} , Path=Height, Mode=TwoWay, Converter={StaticResource converter}, ConverterParameter=0.7}"
+          Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}} , Path=Width, Mode=TwoWay, Converter={StaticResource converter}, ConverterParameter=0.7}"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch"
+          >
 
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
         <materialDesign:Card
-            
-                                VerticalAlignment="Center"
+            Margin="20"
+            Padding="20"
+                                VerticalAlignment="Stretch"
                                 HorizontalAlignment="Stretch"
                                 Background="{DynamicResource MaterialDesignBackground}"
-                                Margin="15">
+                              >
 
-
-            <StackPanel
-                                    TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
-                <Expander
-                                        IsExpanded="True"
-                                        HorizontalAlignment="Stretch">
-                    <Expander.Header>
-                        <TextBlock
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <DockPanel Grid.Row="0">
+                    <TextBlock DockPanel.Dock="Left"
                                                 x:Name="DisplayContextTitle2"
                                                 Style="{StaticResource MaterialDesignHeadline5TextBlock}"
                                                 TextWrapping="Wrap" >
                                                 Html
-                        </TextBlock>
-                    </Expander.Header>
-
-                    <cefSharp:ChromiumWebBrowser
-                                            Height="200" Margin="24,8,24,16"
+                    </TextBlock>
+                    <Button IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
+                        DockPanel.Dock="Right"
+                        HorizontalAlignment="Right"
+                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
+                        <Button.CommandParameter>
+                            <system:Boolean>True</system:Boolean>
+                        </Button.CommandParameter>
+                        CLOSEs
+                    </Button>
+                </DockPanel>
+                <cefSharp:ChromiumWebBrowser
+                            Grid.Row="1"
+                      VerticalAlignment="Stretch"
+                            HorizontalAlignment="Stretch"
                 x:Name="browser"
                     Address="http://localhost:8887/tableTesxt.html"
                     />
-                </Expander>
-            </StackPanel>
+
+            </Grid>
         </materialDesign:Card>
-      
-        <StackPanel Orientation="Horizontal" Grid.Row="1"
+
+        <!--<StackPanel Orientation="Horizontal" Grid.Row="1"
                     Margin="0 16 0 0">
-            <Button IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
-                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
-                <Button.CommandParameter>
-                    <system:Boolean>True</system:Boolean>
-                </Button.CommandParameter>
-                ACCEPT
-            </Button>
+
             <Button IsCancel="True" Margin="8 0 0 0" Style="{DynamicResource MaterialDesignFlatButton}"
                     Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
                 <Button.CommandParameter>
@@ -63,6 +73,6 @@
                 </Button.CommandParameter>
                 CANCEL
             </Button>
-        </StackPanel>
+        </StackPanel>-->
     </Grid>
 </UserControl>

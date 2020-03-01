@@ -101,6 +101,7 @@
     <Compile Include="SampleDialog.xaml.cs">
       <DependentUpon>SampleDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ValuePercentageConverter.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
